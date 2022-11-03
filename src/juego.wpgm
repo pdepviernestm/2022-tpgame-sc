@@ -1,8 +1,69 @@
 import wollok.game.*
-import pepita.*
+import example.*
 
 program juego {
-	game.title("Juego Base")
-	game.addVisual(pepita)
+	
+	const letrasPrimerTablero = ["a","b","c","d","e","f","g","h","i","j"]
+	const letrasSegundoTablero = ["k","l","m","n","o","p","q","r","s","t"]
+	const enteros = ["0","1","2","3","4","5","6","7","8","9"]
+	
+	game.title("Battleship")
+	
+	game.cellSize(50)
+	
+	game.width(20)
+	game.height(10)
+	
+	var tableroPC = new Tablero()
+	letrasPrimerTablero.forEach({l => enteros.forEach({n => tableroPC.addCasilla(l,n)})})
+	
+	var tableroNPC = new Tablero()
+	letrasSegundoTablero.forEach({l => enteros.forEach({n => tableroNPC.addCasilla(l,n)})})
+	
+	var pcplayer = new Jugador(tablero=tableroPC)
+	var npcplayer = new Jugador(tablero=tableroNPC)
+	
+	const barcosDisponiblesPC = [
+		new Barco(longitud=5,tipo="Carrier"),
+		new Barco(longitud=4,tipo="Battleship"),
+		new Barco(longitud=4,tipo="Battleship"),
+		new Barco(longitud=3,tipo="Cruiser"),
+		new Barco(longitud=3,tipo="Cruiser"),
+		new Barco(longitud=3,tipo="Submarine"),
+		new Barco(longitud=2,tipo="Patrol"),
+		new Barco(longitud=2,tipo="Patrol"),
+		new Barco(longitud=2,tipo="Patrol"),
+		new Barco(longitud=2,tipo="Patrol")
+	]
+	
+	const barcosDisponiblesNPC = [
+		new Barco(longitud=5,tipo="Carrier"),
+		new Barco(longitud=4,tipo="Battleship"),
+		new Barco(longitud=4,tipo="Battleship"),
+		new Barco(longitud=3,tipo="Cruiser"),
+		new Barco(longitud=3,tipo="Cruiser"),
+		new Barco(longitud=3,tipo="Submarine"),
+		new Barco(longitud=2,tipo="Patrol"),
+		new Barco(longitud=2,tipo="Patrol"),
+		new Barco(longitud=2,tipo="Patrol"),
+		new Barco(longitud=2,tipo="Patrol")
+	]
+	
+	barcosDisponiblesNPC.forEach({b => b.colocarBarcoNPC(tableroNPC)})
+	
 	game.start()
+	
+	barcosDisponiblesPC.forEach({b => b.colocarBarcoPC(tableroPC)})
+	
+	npcplayer.setSiguienteJugador(pcplayer)
+	pcplayer.setSiguienteJugador(npcplayer)
+	
+	var quienInicia = 0.randomUpTo(1)
+	if(quienInicia == 0){
+		pcplayer.turnoPC()
+	}else{
+		npcplayer.turnoNPC()
+	}
+	
+	game.stop()
 }
