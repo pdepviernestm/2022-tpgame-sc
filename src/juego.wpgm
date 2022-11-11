@@ -5,36 +5,32 @@ program juego {
 	
 	const letrasPrimerTablero = ["a","b","c","d","e","f","g","h","i","j"]
 	const letrasSegundoTablero = ["k","l","m","n","o","p","q","r","s","t"]
-	const enteros = ["0","1","2","3","4","5","6","7","8","9"]
+	const enteros = [0,1,2,3,4,5,6,7,8,9]
 	
 	game.title("Battleship")
+	
+	game.boardGround("battleship_board.png")
 	
 	game.cellSize(50)
 	
 	game.width(20)
 	game.height(10)
 	
+	console.println("Crea tablero PC")
 	var tableroPC = new Tablero()
-	letrasPrimerTablero.forEach({l => enteros.forEach({n => tableroPC.addCasilla(l,n)})})
+	enteros.forEach({e=>letrasPrimerTablero.forEach({l => tableroPC.addCasilla(l,e)})})
+	tableroPC.showCasillas()
 	
+	console.println("Crea tablero NPC")
 	var tableroNPC = new Tablero()
-	letrasSegundoTablero.forEach({l => enteros.forEach({n => tableroNPC.addCasilla(l,n)})})
+	enteros.forEach({e=>letrasSegundoTablero.forEach({l => tableroNPC.addCasilla(l,e)})})
+	tableroNPC.showCasillas()
 	
+	console.println("Crea jugador PC")
 	var pcplayer = new Jugador(tablero=tableroPC)
+	console.println("Crea jugador NPC")
 	var npcplayer = new Jugador(tablero=tableroNPC)
-	
-	const barcosDisponiblesPC = [
-		new Barco(longitud=5,tipo="Carrier"),
-		new Barco(longitud=4,tipo="Battleship"),
-		new Barco(longitud=4,tipo="Battleship"),
-		new Barco(longitud=3,tipo="Cruiser"),
-		new Barco(longitud=3,tipo="Cruiser"),
-		new Barco(longitud=3,tipo="Submarine"),
-		new Barco(longitud=2,tipo="Patrol"),
-		new Barco(longitud=2,tipo="Patrol"),
-		new Barco(longitud=2,tipo="Patrol"),
-		new Barco(longitud=2,tipo="Patrol")
-	]
+	npcplayer.nombre("NPC")
 	
 	const barcosDisponiblesNPC = [
 		new Barco(longitud=5,tipo="Carrier"),
@@ -49,21 +45,35 @@ program juego {
 		new Barco(longitud=2,tipo="Patrol")
 	]
 	
+	const cartel = tableroPC.getCasilla('e2')
+	cartel.setImage("start.png")
+	game.addVisual(cartel)
+	
+	console.println("Colocar barcos NPC")
 	barcosDisponiblesNPC.forEach({b => b.colocarBarcoNPC(tableroNPC)})
+	tableroNPC.addBarcos(barcosDisponiblesNPC)
+	tableroNPC.showCasillasEstado()
 	
-	game.start()
+	casillaJugador.casilla(tableroPC.casillas().first())
+	casillaJugador.setTablero(tableroPC)
 	
-	barcosDisponiblesPC.forEach({b => b.colocarBarcoPC(tableroPC)})
+	keyboard.up().onPressDo { casillaJugador.move(casillaJugador.curTablero().getCasilla(casillaJugador.casilla().letra() + (casillaJugador.casilla().entero() + 1))) }
+	keyboard.down().onPressDo { casillaJugador.move(casillaJugador.curTablero().getCasilla(casillaJugador.casilla().letra() + (casillaJugador.casilla().entero() - 1))) }
+	keyboard.left().onPressDo { casillaJugador.move(casillaJugador.curTablero().casillas().findOrDefault({c => c.letraToEntero() == casillaJugador.casilla().letraToEntero() - 1 && c.entero() == casillaJugador.casilla().entero()},null)) }
+	keyboard.right().onPressDo { casillaJugador.move(casillaJugador.curTablero().casillas().findOrDefault({c => c.letraToEntero() == casillaJugador.casilla().letraToEntero() + 1 && c.entero() == casillaJugador.casilla().entero()},null)) }
+	
+	keyboard.i().onPressDo { casillaJugador.move(casillaJugador.curTablero().getCasilla(casillaJugador.casilla().letra() + (casillaJugador.casilla().entero() + 1))) }
+	keyboard.k().onPressDo { casillaJugador.move(casillaJugador.curTablero().getCasilla(casillaJugador.casilla().letra() + (casillaJugador.casilla().entero() - 1))) }
+	keyboard.j().onPressDo { casillaJugador.move(casillaJugador.curTablero().casillas().findOrDefault({c => c.letraToEntero() == casillaJugador.casilla().letraToEntero() - 1 && c.entero() == casillaJugador.casilla().entero()},null)) }
+	keyboard.l().onPressDo { casillaJugador.move(casillaJugador.curTablero().casillas().findOrDefault({c => c.letraToEntero() == casillaJugador.casilla().letraToEntero() + 1 && c.entero() == casillaJugador.casilla().entero()},null)) }
+	
+	keyboard.enter().onPressDo { var x = casillaJugador.nextState() }
+	
+	casillaJugador.setPlayer(pcplayer)
 	
 	npcplayer.setSiguienteJugador(pcplayer)
 	pcplayer.setSiguienteJugador(npcplayer)
 	
-	var quienInicia = 0.randomUpTo(1)
-	if(quienInicia == 0){
-		pcplayer.turnoPC()
-	}else{
-		npcplayer.turnoNPC()
-	}
-	
-	game.stop()
+	game.start()
+
 }
