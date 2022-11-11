@@ -19,6 +19,12 @@ Un barco se considera destruido cuando todas las casillas que ocupa hayan sido a
 El juego termina cuando un jugador destruye todos los barcos del otro.
 
 
+## Controles
+
+- Enter: Accion
+- Flechas direccionales: Mover seleccion
+
+
 ## Otros
 
 - Curso K2005 / UTN / 2022
