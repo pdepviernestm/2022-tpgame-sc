@@ -1,22 +1,32 @@
-# Nombre del juego (<- borrar y completar)
+# Battleship
 
 ## Equipo de desarrollo
 
-- Alguien
-- Persona
-- etc.
+- Agustin Lancuba
 
 ## Capturas
 
-(agregar)
+![primera imagen](./images/BattleshipA.png)
+![segunda imagen](./images/BattleshipB.png)
+![tercera imagen](./images/BattleshipC.png)
 
 ## Reglas de Juego / Instrucciones
 
-(Escribirlas)
+Al comenzar el juego los jugadores colocan sus barcos en el tablero.
+Para colocar un barco se indica la posicion inicial y la posicion final, teniendo en cuenta cuantas casillas ocupa ese tipo de barco.
+Luego se toman turnos para atacar las casillas del tablero de su contrincante.
+Un barco se considera destruido cuando todas las casillas que ocupa hayan sido atacadas.
+El juego termina cuando un jugador destruye todos los barcos del otro.
+
+
+## Controles
+
+- Enter: Accion
+- Flechas direccionales: Mover seleccion
 
 
 ## Otros
 
-- Curso/Facultad
-- Versión de wollok
-- Una vez terminado, no tenemos problemas en que el repositorio sea público / queremos manternerlo privado
+- Curso K2005 / UTN / 2022
+- Versión de wollok 3.0.0
+- Una vez terminado, no tenemos problemas en que el repositorio sea público
