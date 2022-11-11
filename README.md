@@ -6,7 +6,9 @@
 
 ## Capturas
 
-(agregar)
+![primera imagen](./images/BattleshipA.png)
+![segunda imagen](./images/BattleshipB.png)
+![tercera imagen](./images/BattleshipC.png)
 
 ## Reglas de Juego / Instrucciones
 
